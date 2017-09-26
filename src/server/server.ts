@@ -7,4 +7,6 @@ const app = new Koa();
 
 app.use(serve('./build/htdocs'));
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT, () => {
+    console.log('It has begun...');
+});
