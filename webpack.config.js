@@ -1,6 +1,7 @@
 require('dotenv').config();
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ReactRootPlugin = require('html-webpack-react-root-plugin');
 const defaultExtensions = [ '.ts', '.tsx', '.js'];
 const tsRules = [
     {
@@ -52,7 +53,8 @@ const appConfig = {
             title: process.env.HTML_TITLE,
             favicon: './static/favicon.ico',
             hash: true
-        })
+        }),
+        new ReactRootPlugin()
     ]
 };
 
