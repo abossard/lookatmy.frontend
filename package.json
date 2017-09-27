@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "build": "webpack",
-    "start": "node ./build/server.js"
+    "start": "node ./build/server.js",
+    "deploy": "echo hello world"
   },
   "repository": {
     "type": "git",
