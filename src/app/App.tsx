@@ -13,6 +13,9 @@ class TimerView extends React.Component<{appState: AppState}, {}> {
         return (
             <div className={redText}>
                 <h1>Hello, World!</h1>
+                <a href="/auth/facebook">Login/Sign Up with Facebook</a><br/>
+                <a href="/nice">Nice site to check if I'm logged in</a><br/>
+                <a href="/logout">Logout</a><br/>
                 <button onClick={this.onReset}>
                     Seconds passed: {this.props.appState.timer}
                 </button>
