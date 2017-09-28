@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "webpack",
-    "start": "node ./build/server.js",
+    "start": "ts-node ./src/server/server.ts",
     "deploy": "sh deploy.sh",
     "test": "jest"
   },
