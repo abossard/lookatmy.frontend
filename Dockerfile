@@ -1,18 +1,17 @@
 FROM node:alpine
-RUN yarn global add pm2
-
-VOLUME ["/app"]
+RUN npm install -g pm2
 
 WORKDIR /app
 
 COPY package.json .
 COPY yarn.lock .
 RUN yarn install
-COPY .env .
 
+COPY .env .
 COPY src src
 COPY static static
 COPY process.yml .
+COPY tslint.json .
 COPY tsconfig.json .
 COPY webpack.config.js .
 
