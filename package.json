@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start": "node ./build/server.js",
-    "deploy": "ls"
+    "deploy": "sh deploy.sh"
   },
   "repository": {
     "type": "git",

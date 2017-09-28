@@ -6,13 +6,6 @@ const defaultExtensions = [ '.ts', '.tsx', '.js'];
 const tsRules = [
     {
         test: /\.tsx?$/,
-        enforce: 'pre',
-        loader: 'tslint-loader',
-        options: {
-        }
-    },
-    {
-        test: /\.tsx?$/,
         loader: 'ts-loader',
         options: {
             transpileOnly: true
