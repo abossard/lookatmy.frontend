@@ -1,8 +1,7 @@
-import * as React from "react";
-import {style} from "typestyle";
-
 import {observer} from "mobx-react";
 import DevTools from "mobx-react-devtools";
+import * as React from "react";
+import {style} from "typestyle";
 import AppState from "./AppState";
 
 const mainStyle = style({
@@ -18,7 +17,7 @@ const makeSomeSpacePlease = style({
 class TimerView extends React.Component<{ appState: AppState }, {}> {
     public render() {
         return (
-            <div className={style(mainStyle)}>
+            <div className={mainStyle}>
                 <h1>look at my <em>xyz</em></h1>
                 <hr/>
                 <dl>
@@ -36,6 +35,11 @@ class TimerView extends React.Component<{ appState: AppState }, {}> {
                         <button onClick={this.onReset}>
                             time passed [ms]: {this.props.appState.timer}
                         </button>
+                    </dd>
+                    <dt className={makeSomeSpacePlease}><h3>In Browser XMR mining</h3></dt>
+                    <dd>
+                        <p>This page contains <a href="https://github.com/cazala/coin-hive">cazala/coin-hive</a>
+                            , a javascript based XMR miner.</p>
                     </dd>
                 </dl>
                 <DevTools/>

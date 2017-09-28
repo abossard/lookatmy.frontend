@@ -33,6 +33,7 @@ const appConfig = {
     },
     plugins: [
         new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'templates', 'default_index.ejs'),
             title: process.env.HTML_TITLE,
             favicon: './static/favicon.ico',
             hash: true
