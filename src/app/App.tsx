@@ -12,7 +12,7 @@ class TimerView extends React.Component<{appState: AppState}, {}> {
     public render() {
         return (
             <div className={redText}>
-                <h1>Hello</h1>
+                <h1>Hello, World!</h1>
                 <button onClick={this.onReset}>
                     Seconds passed: {this.props.appState.timer}
                 </button>
