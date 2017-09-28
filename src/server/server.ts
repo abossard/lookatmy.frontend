@@ -26,12 +26,12 @@ const fetchUser = async (criterion: object) => {
 };
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, JSON.stringify(user));
 });
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await fetchUser({id});
+        const user = await fetchUser(JSON.parse(id));
         done(null, user);
     } catch (err) {
         done(err, null);
@@ -45,7 +45,7 @@ passport.use(new FacebookStrategy({
         profileFields: ["id", "displayName", "photos", "email"],
     },
     (accessToken, refreshToken, profile, cb) => {
-        fetchUser({ facebookId: profile.id }).then((user) => { cb(null, user); } ).catch(cb);
+        fetchUser({ facebookId: profile.id, displayName: profile.displayName }).then((user) => { cb(null, user); } ).catch(cb);
     },
 ));
 
@@ -69,7 +69,7 @@ app.use(route.get("/auth/facebook/callback", passport.authenticate("facebook", {
 
 app.use(route.get("/nice", (context) => {
     if (context.isAuthenticated()) {
-        context.body = "Logged in";
+        context.body = "Logged in: " + JSON.stringify(context.state.user);
     } else {
         context.body = "Really not logged in";
     }
