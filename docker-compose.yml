@@ -10,5 +10,11 @@ services:
       - PORT
     depends_on:
       - redis_api
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
   redis_api:
     image: redis:alpine

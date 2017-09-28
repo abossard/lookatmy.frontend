@@ -5,21 +5,40 @@ import {observer} from "mobx-react";
 import DevTools from "mobx-react-devtools";
 import AppState from "./AppState";
 
-const redText = style({color: "red"});
+const mainStyle = style({
+    color: "black",
+    fontFamily: "helvetica",
+});
+
+const makeSomeSpacePlease = style({
+    paddingTop: 20,
+});
 
 @observer
-class TimerView extends React.Component<{appState: AppState}, {}> {
+class TimerView extends React.Component<{ appState: AppState }, {}> {
     public render() {
         return (
-            <div className={redText}>
-                <h1>Hello, World!</h1>
-                <a href="/auth/facebook">Login/Sign Up with Facebook</a><br/>
-                <a href="/nice">Nice site to check if I'm logged in</a><br/>
-                <a href="/logout">Logout</a><br/>
-                <button onClick={this.onReset}>
-                    Seconds passed: {this.props.appState.timer}
-                </button>
-                <DevTools />
+            <div className={style(mainStyle)}>
+                <h1>look at my <em>xyz</em></h1>
+                <hr/>
+                <dl>
+                    <dt className={makeSomeSpacePlease}><h3>Login test links</h3></dt>
+                    <dd>
+                        <a href="/auth/facebook">Login/Sign Up with Facebook</a><br/>
+                        <a href="/nice">Nice site to check if I'm logged in</a><br/>
+                        <a href="/logout">Logout</a><br/>
+                    </dd>
+                    <dt className={makeSomeSpacePlease}><h3>Async state example</h3></dt>
+                    <dd>
+                        <p>
+                            This button receives the next second from <em>outside</em>. A click on it, resets it to 0.
+                        </p>
+                        <button onClick={this.onReset}>
+                            Seconds passed: {this.props.appState.timer}
+                        </button>
+                    </dd>
+                </dl>
+                <DevTools/>
             </div>
         );
     }
