@@ -1,4 +1,4 @@
 apps:
-  - script   : './build/server.js'
-    name     : 'APP'
+  - script   : './src/server/server.ts'
+    name     : 'Server'
     exec_mode: 'cluster'

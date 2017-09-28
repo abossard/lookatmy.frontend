@@ -1,12 +1,12 @@
-import dotenv from "dotenv";
-import Koa from "koa";
-import bodyParser from "koa-bodyparser";
-import passport from "koa-passport";
-import session from "koa-session";
-import serve from "koa-static";
-import {Strategy as LocalStrategy} from "passport-local";
+import * as dotenv from "dotenv";
+import * as Koa from "koa";
+import * as bodyParser from "koa-bodyparser";
+import * as passport from "koa-passport";
+import * as session from "koa-session";
+import * as serve from "koa-static";
 
-const log = process.stdout.write;
+// import {Strategy as LocalStrategy} from "passport-local";
+
 dotenv.config();
 
 const {PORT, HOST, REDIS_API_URL} = process.env;
@@ -30,17 +30,19 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-passport.use(new LocalStrategy((username, password, done) => {
-    fetchUser()
-        .then((user) => {
-            if (username === user.username && password === user.password) {
-                done(null, user);
-            } else {
-                done(null, false);
-            }
-        })
-        .catch((err) => done(err));
-}));
+/*var GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+passport.use(new GoogleStrategy({
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        callbackURL: "http://www.example.com/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        User.findOrCreate({ googleId: profile.id }, function (err, user) {
+            return cb(err, user);
+        });
+    }
+));*/
 
 app.proxy = true;
 app.keys = ["your-session-secret"];
@@ -54,11 +56,11 @@ app.use(bodyParser());
 app.use(serve("./build/htdocs"));
 
 app.listen(Number(PORT), HOST, () => {
-    log(`Running on http://${HOST}:${PORT}`);
-    log(`Redis at ${REDIS_API_URL}`);
+    process.stdout.write(`Running on http://${HOST}:${PORT} \n`);
+    process.stdout.write(`Redis at ${REDIS_API_URL}\n`);
 });
 
 process.on("SIGINT", () => {
-    log("Shutdown");
+    process.stdout.write("Shutdown.");
     process.exit(0);
 });
