@@ -4,7 +4,7 @@ services:
     build: .
     image: 127.0.0.1:5000/lookatmy.frontend:dev
     ports:
-      - "3001:8080"
+      - "3001:3001"
     environment:
       - REDIS_API_URL=redis://redis_api:6379/0
       - PORT

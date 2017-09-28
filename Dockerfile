@@ -14,9 +14,9 @@ COPY webpack.config.js .
 
 RUN yarn build
 
-EXPOSE 8080
+EXPOSE 3001
 
-ENV PORT 8080
+ENV PORT 3001
 ENV HOST 0.0.0.0
 
 CMD ["yarn", "start"]
