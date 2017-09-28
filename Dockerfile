@@ -1,6 +1,9 @@
 FROM node:alpine
+RUN yarn global add pm2
 
-WORKDIR /opt/lookatmy.frontend
+VOLUME ["/app"]
+
+WORKDIR /app
 
 COPY package.json .
 COPY yarn.lock .
@@ -9,6 +12,7 @@ COPY .env .
 
 COPY src src
 COPY static static
+COPY process.yml .
 COPY tsconfig.json .
 COPY webpack.config.js .
 
@@ -19,4 +23,4 @@ EXPOSE 3001
 ENV PORT 3001
 ENV HOST 0.0.0.0
 
-CMD ["yarn", "start"]
+CMD ["pm2-docker", "--auto-exit", "process.yml"]
