@@ -1,29 +1,15 @@
-import React from 'react';
-import {style} from 'typestyle';
+import React from "react";
+import {style} from "typestyle";
 
-import {observable} from 'mobx';
-import {observer} from 'mobx-react';
-import DevTools from 'mobx-react-devtools';
+import {observer} from "mobx-react";
+import DevTools from "mobx-react-devtools";
+import AppState from "./AppState";
 
-class AppState {
-    @observable timer = 0;
-
-    constructor() {
-        setInterval(() => {
-            this.timer += 1;
-        }, 1000);
-    }
-
-    resetTimer() {
-        this.timer = 0;
-    }
-}
-
-const redText = style({color: 'red'});
+const redText = style({color: "red"});
 
 @observer
 class TimerView extends React.Component<{appState: AppState}, {}> {
-    render() {
+    public render() {
         return (
             <div className={redText}>
                 <h1>Hello</h1>
@@ -35,7 +21,7 @@ class TimerView extends React.Component<{appState: AppState}, {}> {
         );
     }
 
-    onReset = () => {
+    public onReset = () => {
         this.props.appState.resetTimer();
     }
 }

@@ -2,8 +2,14 @@ require('dotenv').config();
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRootPlugin = require('html-webpack-react-root-plugin');
-const defaultExtensions = [ '.ts', '.tsx', '.js'];
+const defaultExtensions = ['.ts', '.tsx', '.js'];
 const tsRules = [
+    {
+        test: /\.tsx?$/,
+        enforce: 'pre',
+        loader: 'tslint-loader',
+        options: {}
+    },
     {
         test: /\.tsx?$/,
         loader: 'ts-loader',
