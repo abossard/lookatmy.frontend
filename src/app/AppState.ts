@@ -5,8 +5,8 @@ class AppState {
 
     constructor() {
         setInterval(() => {
-            this.timer += 1;
-        }, 1000);
+            this.timer += 16;
+        }, 16);
     }
 
     public resetTimer() {

@@ -34,7 +34,7 @@ class TimerView extends React.Component<{ appState: AppState }, {}> {
                             This button receives the next second from <em>outside</em>. A click on it, resets it to 0.
                         </p>
                         <button onClick={this.onReset}>
-                            Seconds passed: {this.props.appState.timer}
+                            time passed [ms]: {this.props.appState.timer}
                         </button>
                     </dd>
                 </dl>
