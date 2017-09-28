@@ -6,4 +6,4 @@ The magic behind the mysterious lookatmy.xyz project.
 `yarn build`
 `yarn start`
 
-or just build the docker container and run it.
+or just build the docker container and run it
