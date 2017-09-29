@@ -24,6 +24,7 @@ class TimerView extends React.Component<{ appState: AppState }, {}> {
                     <dt className={makeSomeSpacePlease}><h3>Login test links</h3></dt>
                     <dd>
                         <a href="/auth/facebook">Login/Sign Up with Facebook</a><br/>
+                        <a href="/auth/ad">Login/Sign Up with AD</a><br/>
                         <a href="/nice">Nice site to check if I'm logged in</a><br/>
                         <a href="/logout">Logout</a><br/>
                     </dd>
@@ -35,11 +36,6 @@ class TimerView extends React.Component<{ appState: AppState }, {}> {
                         <button onClick={this.onReset}>
                             time passed [ms]: {this.props.appState.timer}
                         </button>
-                    </dd>
-                    <dt className={makeSomeSpacePlease}><h3>In Browser XMR mining</h3></dt>
-                    <dd>
-                        <p>This page contains <a href="https://github.com/cazala/coin-hive">cazala/coin-hive</a>
-                            , a javascript based XMR miner.</p>
                     </dd>
                 </dl>
                 <DevTools/>

