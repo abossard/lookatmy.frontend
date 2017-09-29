@@ -5,7 +5,7 @@ import {style} from "typestyle";
 import AppState from "./AppState";
 
 const mainStyle = style({
-    color: "black",
+    color: "green",
     fontFamily: "helvetica",
 });
 
