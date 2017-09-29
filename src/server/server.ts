@@ -91,7 +91,7 @@ app.use(route.get("/auth/ad", passport.authenticate("azuread-openidconnect", {
     prompt: "login",
     tenantIdOrName: "srds.onmicrosoft.com",
 })));
-app.use(route.get("/auth/ad/callback", passport.authenticate("azuread-openidconnect", {
+app.use(route.post("/auth/ad/callback", passport.authenticate("azuread-openidconnect", {
     failureRedirect: "/",
     successRedirect: "/nice",
     tenantIdOrName: "srds.onmicrosoft.com",

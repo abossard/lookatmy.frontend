@@ -6,7 +6,7 @@ import AppState from "./AppState";
 
 const mainStyle = style({
     color: "green",
-    fontFamily: "helvetica",
+    fontFamily: "comic sans, helvetia",
 });
 
 const makeSomeSpacePlease = style({
@@ -48,4 +48,4 @@ class TimerView extends React.Component<{ appState: AppState }, {}> {
     }
 }
 
-export {TimerView, AppState};
+export {TimerView};
