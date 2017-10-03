@@ -54,7 +54,9 @@ passport.use(new AD.OIDCStrategy({
     responseType: "id_token",
 }, (iss, sub, profile, accessToken, refreshToken, done) => {
     fetchUser({ azureIss: iss, azureSub: sub, profile })
-        .then((user) => { done(null, user); } ).catch(done);
+        .then((user) => {
+        done(null, user);
+    } ).catch(done);
 }));
 
 passport.use(new FacebookStrategy({
@@ -81,6 +83,8 @@ app.use(bodyParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
+// AUTH routes
+
 app.use(route.get("/auth/facebook", passport.authenticate("facebook")));
 app.use(route.get("/auth/facebook/callback", passport.authenticate("facebook", {
     failureRedirect: "/",
@@ -91,6 +95,7 @@ app.use(route.get("/auth/ad", passport.authenticate("azuread-openidconnect", {
     prompt: "login",
     tenantIdOrName: "srds.onmicrosoft.com",
 })));
+
 app.use(route.get("/auth/ad/callback", passport.authenticate("azuread-openidconnect", {
     failureRedirect: "/",
     successRedirect: "/nice",

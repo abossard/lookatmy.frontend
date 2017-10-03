@@ -24,6 +24,7 @@ export interface IOIDCStrategyOptions {
     validateIssuer?: boolean;
     isB2C?: boolean;
     issuer?: string;
+    jweKeyStore?: any;
     passReqToCallback?: false;
     scope?: string;
     loggingLevel?: string;
@@ -44,6 +45,7 @@ export interface IOIDCStrategyOptionsWithRequest {
     validateIssuer?: boolean;
     isB2C?: boolean;
     issuer?: string;
+    jweKeyStore?: any;
     passReqToCallback: true;
     scope?: string;
     loggingLevel?: string;
