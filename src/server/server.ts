@@ -5,6 +5,8 @@ import * as passport from "koa-passport";
 import * as route from "koa-route";
 import * as session from "koa-session";
 import * as serve from "koa-static";
+import * as AD from "passport-azure-ad";
+
 import {Strategy as FacebookStrategy} from "passport-facebook";
 
 dotenv.config();
@@ -38,6 +40,21 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
+passport.use(new AD.OIDCStrategy({
+    allowHttpForRedirectUrl: true,
+    clientID: AD_CLIENT_ID,
+    clientSecret: AD_CLIENT_SECRET,
+    identityMetadata: AD_AUTHORITY_URL,
+    redirectUrl: AD_CALLBACK_URL,
+    responseMode: "query",
+    responseType: "id_token",
+}, (iss, sub, profile, accessToken, refreshToken, done) => {
+    fetchUser({ azureIss: iss, azureSub: sub, profile })
+        .then((user) => {
+        done(null, user);
+    } ).catch(done);
+}));
+
 passport.use(new FacebookStrategy({
         callbackURL: FACEBOOK_CALLBACK_URL,
         clientID: FACEBOOK_APP_ID,
@@ -62,10 +79,23 @@ app.use(bodyParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
+// AUTH routes
+
 app.use(route.get("/auth/facebook", passport.authenticate("facebook")));
 app.use(route.get("/auth/facebook/callback", passport.authenticate("facebook", {
     failureRedirect: "/",
     successRedirect: "/nice",
+})));
+
+app.use(route.get("/auth/ad", passport.authenticate("azuread-openidconnect", {
+    prompt: "login",
+    tenantIdOrName: "srds.onmicrosoft.com",
+})));
+
+app.use(route.get("/auth/ad/callback", passport.authenticate("azuread-openidconnect", {
+    failureRedirect: "/",
+    successRedirect: "/nice",
+    tenantIdOrName: "srds.onmicrosoft.com",
 })));
 
 app.use(route.get("/nice", (context) => {
