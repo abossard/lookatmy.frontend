@@ -19,3 +19,14 @@ FACEBOOK_CALLBACK_URL=http://localhost:3001/auth/facebook/callback
 FACEBOOK_APP_ID=<secret>
 FACEBOOK_APP_SECRET=<secret>
 ```
+
+# TODOS
+```
+call
+
+alan http://swissredev.azure-api.net/dcs/api/v1/solutions
+Headers:
+Ocp-Apim-Subscription-Key
+e60ecbd9bb554ed99d540bc97bbcc4d6
+
+```
