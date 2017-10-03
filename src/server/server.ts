@@ -6,6 +6,7 @@ import * as route from "koa-route";
 import * as session from "koa-session";
 import * as serve from "koa-static";
 import * as AD from "passport-azure-ad";
+
 import {Strategy as FacebookStrategy} from "passport-facebook";
 
 dotenv.config();
@@ -51,7 +52,6 @@ passport.use(new AD.OIDCStrategy({
     redirectUrl: AD_CALLBACK_URL,
     responseMode: "query",
     responseType: "id_token",
-    tenantIdOrName: "srds.onmicrosoft.com",
 }, (iss, sub, profile, accessToken, refreshToken, done) => {
     fetchUser({ azureIss: iss, azureSub: sub, profile })
         .then((user) => { done(null, user); } ).catch(done);
