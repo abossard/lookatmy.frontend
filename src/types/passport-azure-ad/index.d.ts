@@ -60,8 +60,10 @@ export type OICDVerifyCallback = (
     iss: string,
     sub: string,
     profile: string,
+    jwtClaims: string,
     accessToken: string,
     refreshToken: string,
+    params: any,
     done: any,
 ) => void;
 

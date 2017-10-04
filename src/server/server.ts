@@ -21,7 +21,6 @@ const {
     FACEBOOK_CALLBACK_URL = "NO CALLBACK URL",
     AD_CALLBACK_URL = "",
     AD_CLIENT_ID = "",
-    AD_CLIENT_SECRET = "",
     AD_AUTHORITY_URL = "",
 } = process.env;
 
@@ -47,12 +46,11 @@ passport.deserializeUser(async (id, done) => {
 passport.use(new AD.OIDCStrategy({
     allowHttpForRedirectUrl: true,
     clientID: AD_CLIENT_ID,
-    clientSecret: AD_CLIENT_SECRET,
     identityMetadata: AD_AUTHORITY_URL,
     redirectUrl: AD_CALLBACK_URL,
-    responseMode: "query",
+    responseMode: "form_post",
     responseType: "id_token",
-}, (iss, sub, profile, accessToken, refreshToken, done) => {
+}, (iss, sub, profile, jwtClaims, accessToken, refreshToken, params, done) => {
     fetchUser({ azureIss: iss, azureSub: sub, profile })
         .then((user) => {
         done(null, user);
@@ -96,7 +94,7 @@ app.use(route.get("/auth/ad", passport.authenticate("azuread-openidconnect", {
     tenantIdOrName: "srds.onmicrosoft.com",
 })));
 
-app.use(route.get("/auth/ad/callback", passport.authenticate("azuread-openidconnect", {
+app.use(route.post("/auth/ad/callback", passport.authenticate("azuread-openidconnect", {
     failureRedirect: "/",
     successRedirect: "/nice",
     tenantIdOrName: "srds.onmicrosoft.com",
