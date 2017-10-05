@@ -7,6 +7,7 @@ const defaultExtensions = ['.ts', '.tsx', '.js'];
 const appConfig = {
     target: 'web',
     entry: './src/app/index.tsx',
+    devtool: "source-map",
     output: {
         path: path.resolve(__dirname, 'build', 'htdocs'),
         filename: 'index.bundle.js'
