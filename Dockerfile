@@ -18,6 +18,8 @@ COPY webpack.config.js .
 
 RUN yarn build
 
+RUN yarn test
+
 EXPOSE 3001
 
 ENV PORT 3001

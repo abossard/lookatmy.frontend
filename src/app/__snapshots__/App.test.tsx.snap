@@ -2,17 +2,84 @@
 
 exports[`Does render 1`] = `
 <div
-  className="f1jvcvsh"
+  className="f8xl9ee"
 >
   <h1>
-    Hello
+    look at my 
+    <em>
+      xyz
+    </em>
   </h1>
-  <button
-    onClick={[Function]}
-  >
-    Seconds passed: 
-    0
-  </button>
+  <hr />
+  <dl>
+    <dt
+      className="f1h5lfj6"
+    >
+      <h3>
+        Login test links
+      </h3>
+    </dt>
+    <dd>
+      <a
+        href="/auth/facebook"
+      >
+        Login/Sign Up with Facebook
+      </a>
+      <br />
+      <a
+        href="/auth/ad"
+      >
+        Login/Sign Up with AD
+      </a>
+      <br />
+      <a
+        href="/nice"
+      >
+        Nice site to check if I'm logged in
+      </a>
+      <br />
+      <a
+        href="/logout"
+      >
+        Logout
+      </a>
+      <br />
+    </dd>
+    <dt
+      className="f1h5lfj6"
+    >
+      SPA Login, yeah
+    </dt>
+    <dd>
+      <button
+        onClick={[Function]}
+      >
+        Login
+      </button>
+    </dd>
+    <dt
+      className="f1h5lfj6"
+    >
+      <h3>
+        Async state example
+      </h3>
+    </dt>
+    <dd>
+      <p>
+        This button receives the next second from 
+        <em>
+          outside
+        </em>
+        . A click on it, resets it to 0.
+      </p>
+      <button
+        onClick={[Function]}
+      >
+        time passed [ms]: 
+        0
+      </button>
+    </dd>
+  </dl>
   <div>
     <div>
       <div

@@ -1,11 +1,13 @@
-import React from 'react';
-import {App, AppState} from './App';
-import renderer from 'react-test-renderer';
+import * as React from "react";
+import {create} from "react-test-renderer";
+import {App} from "./App";
+import AppState from "./AppState";
+import AuthState from "./AuthState";
 
-test('Does render', ()=>{
-    const component = renderer.create(
-        <App appState={new AppState()}/>
+test("Does render", () => {
+    const component = create(
+        <App appState={new AppState()} authState={new AuthState()}/>,
     );
-    let tree = component.toJSON();
+    const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
 });
