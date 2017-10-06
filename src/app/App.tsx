@@ -3,6 +3,7 @@ import DevTools from "mobx-react-devtools";
 import * as React from "react";
 import {style} from "typestyle";
 import AppState from "./AppState";
+import AuthState from "./AuthState";
 
 const mainStyle = style({
     color: "green",
@@ -14,7 +15,7 @@ const makeSomeSpacePlease = style({
 });
 
 @observer
-class TimerView extends React.Component<{ appState: AppState }, {}> {
+class TimerView extends React.Component<{ appState: AppState, authState: AuthState }, {}> {
     public render() {
         return (
             <div className={mainStyle}>
