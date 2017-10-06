@@ -19,7 +19,7 @@ class AuthState {
 
     public process() {
         ADAL.Authentication.getAadRedirectProcessor().process();
-        
+
     }
 
     public logout() {
