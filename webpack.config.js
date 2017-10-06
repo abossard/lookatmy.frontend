@@ -3,6 +3,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRootPlugin = require('html-webpack-react-root-plugin');
 const defaultExtensions = ['.ts', '.tsx', '.js'];
+const webpack = require("webpack");
+
+
+const {
+    AD_CALLBACK_URL = "NO CALLBACK",
+    AD_CLIENT_ID = "NO CLIENT ID",
+    AD_TENANT = "NO TENANT",
+} = process.env;
 
 const appConfig = {
     target: 'web',
@@ -33,6 +41,11 @@ const appConfig = {
         extensions: defaultExtensions
     },
     plugins: [
+        new webpack.DefinePlugin({
+            __AD_CALLBACK_URL__: JSON.stringify(AD_CALLBACK_URL),
+            __AD_CLIENT_ID__: JSON.stringify(AD_CLIENT_ID),
+            __AD_TENANT__: JSON.stringify(AD_TENANT),
+        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'templates', 'default_index.ejs'),
             title: process.env.HTML_TITLE,

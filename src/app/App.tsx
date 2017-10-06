@@ -1,4 +1,3 @@
-///<reference path="AuthState.ts"/>
 import {observer} from "mobx-react";
 import DevTools from "mobx-react-devtools";
 import * as React from "react";
@@ -8,7 +7,7 @@ import AuthState from "./AuthState";
 
 const mainStyle = style({
     color: "green",
-    fontFamily: "comic sans, helvetia",
+    fontFamily: "comic sans, helvetica",
 });
 
 const makeSomeSpacePlease = style({
@@ -23,20 +22,13 @@ class App extends React.Component<{ appState: AppState, authState: AuthState }, 
                 <h1>look at my <em>xyz</em></h1>
                 <hr/>
                 <dl>
-                    <dt className={makeSomeSpacePlease}><h3>Login test links</h3></dt>
-                    <dd>
-                        <a href="/auth/facebook">Login/Sign Up with Facebook</a><br/>
-                        <a href="/auth/ad">Login/Sign Up with AD</a><br/>
-                        <a href="/nice">Nice site to check if I'm logged in</a><br/>
-                        <a href="/logout">Logout</a><br/>
-                    </dd>
                     <dt className={makeSomeSpacePlease}>SPA Login, yeah</dt>
                     <dd>
                         {this.props.authState.loggedIn ?
                             <div>Yes, you did it {this.props.authState.user && this.props.authState.user.name}
                                 <br/>
                                 Your magic cookie token is:
-                                <textarea name="token" id="" cols="30" rows="1">
+                                <textarea name="token" id="" cols={30} rows={1}>
                                     {this.props.authState.token}
                                 </textarea>
                                 <br/>
