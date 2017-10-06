@@ -1,6 +1,5 @@
 import * as dotenv from "dotenv";
 import * as Koa from "koa";
-import * as bodyParser from "koa-bodyparser";
 import * as serve from "koa-static";
 
 dotenv.config();
@@ -16,7 +15,6 @@ const app = new Koa();
 app.proxy = true;
 
 // body parser
-app.use(bodyParser());
 
 // AUTH routes
 
