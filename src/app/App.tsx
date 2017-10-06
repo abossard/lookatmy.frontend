@@ -1,3 +1,4 @@
+///<reference path="AuthState.ts"/>
 import {observer} from "mobx-react";
 import DevTools from "mobx-react-devtools";
 import * as React from "react";
@@ -28,6 +29,22 @@ class App extends React.Component<{ appState: AppState, authState: AuthState }, 
                         <a href="/auth/ad">Login/Sign Up with AD</a><br/>
                         <a href="/nice">Nice site to check if I'm logged in</a><br/>
                         <a href="/logout">Logout</a><br/>
+                    </dd>
+                    <dt className={makeSomeSpacePlease}>SPA Login, yeah</dt>
+                    <dd>
+                        {this.props.authState.loggedIn ?
+                            <div>Yes, you did it {this.props.authState.user && this.props.authState.user.name}
+                                <br/>
+                                Your magic cookie token is:
+                                <textarea name="token" id="" cols="30" rows="1">
+                                    {this.props.authState.token}
+                                </textarea>
+                                <br/>
+                                <button onClick={this.props.authState.logout}>Logout</button>
+                            </div>
+                            : <button onClick={this.props.authState.login}>Login</button>
+                        }
+
                     </dd>
                     <dt className={makeSomeSpacePlease}><h3>Async state example</h3></dt>
                     <dd>
