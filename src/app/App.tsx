@@ -15,7 +15,7 @@ const makeSomeSpacePlease = style({
 });
 
 @observer
-class TimerView extends React.Component<{ appState: AppState, authState: AuthState }, {}> {
+class App extends React.Component<{ appState: AppState, authState: AuthState }, {}> {
     public render() {
         return (
             <div className={mainStyle}>
@@ -49,4 +49,4 @@ class TimerView extends React.Component<{ appState: AppState, authState: AuthSta
     }
 }
 
-export {TimerView};
+export {App};
