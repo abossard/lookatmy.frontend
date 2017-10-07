@@ -29,8 +29,12 @@ class App extends React.Component<{ appState: AppState, authState: AuthState, ap
                             <div>Yes, you did it {this.props.authState.user && this.props.authState.user.name}
                                 <br/>
                                 Your magic cookie token is:
-                                <textarea name="token" id="" cols={30} rows={1}>
-                                    {this.props.authState.token}
+                                <textarea
+                                    name="token"
+                                    id=""
+                                    cols={30}
+                                    rows={1}
+                                    defaultValue={this.props.authState.token}>
                                 </textarea>
                                 <br/>
                                 <button onClick={() =>
@@ -39,9 +43,9 @@ class App extends React.Component<{ appState: AppState, authState: AuthState, ap
                                     Make Call
                                 </button>
                                 <br/>
-                                <textarea name="token" id="" cols={30} rows={1}>
-                                    {this.props.apiTest.result ? this.props.apiTest.result.statusText : "NOTHING"}
-                                </textarea>
+                                <p>
+                                    {this.props.apiTest.result}
+                                </p>
                                 <button onClick={this.props.authState.logout}>Logout</button>
                             </div>
                             : <button onClick={this.props.authState.login}>Login</button>

@@ -1,18 +1,15 @@
 import {observable} from "mobx";
 
 class ApiTest {
-    @observable public result?: Response;
+    @observable public result: string;
 
     public async makeCall(accessToken?: string) {
         const headers = new Headers();
         headers.append("Authorization", "Bearer " + accessToken);
-        headers.append("Bananan", "Bearer " + accessToken);
-        this.result = await fetch("https://graph.windows.net/srds.onmicrosoft.com/me?api-version=1.6", {
-            credentials: "include",
+        const response = await fetch("https://graph.windows.net/srds.onmicrosoft.com/me?api-version=1.6", {
             headers,
-            method: "GET",
-            mode: "no-cors",
         });
+        this.result = JSON.stringify(await response.json());
     }
 }
 
