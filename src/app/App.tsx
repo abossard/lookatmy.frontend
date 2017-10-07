@@ -33,8 +33,15 @@ class App extends React.Component<{ appState: AppState, authState: AuthState, ap
                                     {this.props.authState.token}
                                 </textarea>
                                 <br/>
-                                <button onClick={this.props.apiTest.makeCall}>Make Call</button>
+                                <button onClick={() =>
+                                    this.props.apiTest.makeCall(this.props.authState.token)
+                                }>
+                                    Make Call
+                                </button>
                                 <br/>
+                                <textarea name="token" id="" cols={30} rows={1}>
+                                    {this.props.apiTest.result ? this.props.apiTest.result.statusText : "NOTHING"}
+                                </textarea>
                                 <button onClick={this.props.authState.logout}>Logout</button>
                             </div>
                             : <button onClick={this.props.authState.login}>Login</button>

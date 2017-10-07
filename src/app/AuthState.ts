@@ -7,8 +7,8 @@ const config = new ADAL.AdalConfig(
     __AD_TENANT__,
     __AD_CALLBACK_URL__,
     __AD_CALLBACK_URL__,
-    "id_token token",
-    "resource=swissredev.azure-api.net/dcs",
+    "token",
+    "resource=https://graph.windows.net",
 );
 
 const context = ADAL.Authentication.getContext(config);
