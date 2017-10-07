@@ -8,6 +8,7 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn install
 
+COPY .env .
 COPY src src
 COPY static static
 COPY templates templates
