@@ -6,6 +6,9 @@ const config = new ADAL.AdalConfig(
     __AD_CLIENT_ID__,
     __AD_TENANT__,
     __AD_CALLBACK_URL__,
+    __AD_CALLBACK_URL__,
+    "id_token token",
+    "resource=swissredev.azure-api.net/dcs",
 );
 
 const context = ADAL.Authentication.getContext(config);

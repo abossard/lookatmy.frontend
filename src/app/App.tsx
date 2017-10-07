@@ -2,6 +2,7 @@ import {observer} from "mobx-react";
 import DevTools from "mobx-react-devtools";
 import * as React from "react";
 import {style} from "typestyle";
+import ApiTest from "./ApiTest";
 import AppState from "./AppState";
 import AuthState from "./AuthState";
 
@@ -15,7 +16,7 @@ const makeSomeSpacePlease = style({
 });
 
 @observer
-class App extends React.Component<{ appState: AppState, authState: AuthState }, {}> {
+class App extends React.Component<{ appState: AppState, authState: AuthState, apiTest: ApiTest }, {}> {
     public render() {
         return (
             <div className={mainStyle}>
@@ -31,6 +32,8 @@ class App extends React.Component<{ appState: AppState, authState: AuthState }, 
                                 <textarea name="token" id="" cols={30} rows={1}>
                                     {this.props.authState.token}
                                 </textarea>
+                                <br/>
+                                <button onClick={this.props.apiTest.makeCall}>Make Call</button>
                                 <br/>
                                 <button onClick={this.props.authState.logout}>Logout</button>
                             </div>
