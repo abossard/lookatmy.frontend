@@ -19,6 +19,7 @@ AD_CLIENT_ID=ff4d4787-ed2f-4447-aaae-4aa80129655d
 AD_TENANT=srds.onmicrosoft.com
 ```
 
+
 # TODOS
 ```
 call
