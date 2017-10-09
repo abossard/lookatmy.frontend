@@ -34,7 +34,7 @@ class App extends React.Component<{ appState: AppState, authState: AuthState, ap
                                     id=""
                                     cols={30}
                                     rows={1}
-                                    defaultValue={this.props.authState.token}>
+                                    defaultValue={"Bearer " + this.props.authState.token}>
                                 </textarea>
                                 <br/>
                                 <button onClick={() =>

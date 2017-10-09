@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start": "ts-node ./src/server/server.ts",
-    "dev": "webpack-dev-server --inline --hot --progress --open --colors  --content-base build/htdocs",
+    "dev": "webpack-dev-server --inline --hot --progress --colors  --content-base build/htdocs",
     "deploy": "sh deploy.sh",
     "test": "jest"
   },

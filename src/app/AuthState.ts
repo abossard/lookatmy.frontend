@@ -8,7 +8,7 @@ const config = new ADAL.AdalConfig(
     __AD_CALLBACK_URL__,
     __AD_CALLBACK_URL__,
     "token",
-    "resource=https://graph.windows.net",
+    `resource=${__AD_RESOURCE__}`,
 );
 
 const context = ADAL.Authentication.getContext(config);

@@ -10,6 +10,7 @@ const {
     AD_CALLBACK_URL = "NO CALLBACK",
     AD_CLIENT_ID = "NO CLIENT ID",
     AD_TENANT = "NO TENANT",
+    AD_RESOURCE = "NO RESOURCE"
 } = process.env;
 
 const appConfig = {
@@ -45,6 +46,7 @@ const appConfig = {
             __AD_CALLBACK_URL__: JSON.stringify(AD_CALLBACK_URL),
             __AD_CLIENT_ID__: JSON.stringify(AD_CLIENT_ID),
             __AD_TENANT__: JSON.stringify(AD_TENANT),
+            __AD_RESOURCE__: JSON.stringify(AD_RESOURCE),
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'templates', 'default_index.ejs'),
