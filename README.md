@@ -27,3 +27,4 @@ API_SUBSCRIPTION_KEY=216a61765b3d42b89b007cb30bcb5053
 
 * [ ] try out SSR
 * [ ] production version of the code
+
