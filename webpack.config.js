@@ -5,13 +5,28 @@ const ReactRootPlugin = require('html-webpack-react-root-plugin');
 const defaultExtensions = ['.ts', '.tsx', '.js'];
 const webpack = require("webpack");
 
+const requiredEnvVars = [
+    "AD_CALLBACK_URL",
+    "AD_CLIENT_ID",
+    "AD_TENANT",
+    "AD_RESOURCE",
+    "API_SOLUTIONS_URL",
+    "API_SUBSCRIPTION_KEY",
+];
 
-const {
-    AD_CALLBACK_URL = "NO CALLBACK",
-    AD_CLIENT_ID = "NO CLIENT ID",
-    AD_TENANT = "NO TENANT",
-    AD_RESOURCE = "NO RESOURCE"
-} = process.env;
+const envVars = requiredEnvVars.reduce(function(result, name) {
+    return Object.assign(result, {[name]: process.env[name] || false})
+}, {});
+
+const missingVars = Object.keys(envVars).filter(function(name){return envVars[name]===false});
+if(missingVars.length > 0) {
+    console.log("Missing environment variables: " + missingVars);
+    process.exit(1);
+}
+
+const defines = Object.keys(envVars).reduce(function(result, name){
+    return Object.assign(result, {["__"+name+"__"]: JSON.stringify(envVars[name])});
+}, {});
 
 const appConfig = {
     target: 'web',
@@ -42,12 +57,7 @@ const appConfig = {
         extensions: defaultExtensions
     },
     plugins: [
-        new webpack.DefinePlugin({
-            __AD_CALLBACK_URL__: JSON.stringify(AD_CALLBACK_URL),
-            __AD_CLIENT_ID__: JSON.stringify(AD_CLIENT_ID),
-            __AD_TENANT__: JSON.stringify(AD_TENANT),
-            __AD_RESOURCE__: JSON.stringify(AD_RESOURCE),
-        }),
+        new webpack.DefinePlugin(defines),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'templates', 'default_index.ejs'),
             title: process.env.HTML_TITLE,
