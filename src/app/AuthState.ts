@@ -1,11 +1,14 @@
 import * as ADAL from "adal-ts";
-import {observable} from "mobx";
 import {User} from "adal-ts";
+import {observable} from "mobx";
 
 const config = new ADAL.AdalConfig(
-    "ff4d4787-ed2f-4447-aaae-4aa80129655d",
-    "srds.onmicrosoft.com",
-    "http://localhost:8080",
+    __AD_CLIENT_ID__,
+    __AD_TENANT__,
+    __AD_CALLBACK_URL__,
+    __AD_CALLBACK_URL__,
+    "token",
+    "resource=https://graph.windows.net",
 );
 
 const context = ADAL.Authentication.getContext(config);

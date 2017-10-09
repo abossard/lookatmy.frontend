@@ -14,10 +14,9 @@ HTML_TITLE=lookatmy.xyz
 NODE_ENV=development
 PORT=3001
 HOST=0.0.0.0
-SESSION_SECRET=<secret>
-FACEBOOK_CALLBACK_URL=http://localhost:3001/auth/facebook/callback
-FACEBOOK_APP_ID=<secret>
-FACEBOOK_APP_SECRET=<secret>
+AD_CALLBACK_URL=http://localhost:8080/
+AD_CLIENT_ID=ff4d4787-ed2f-4447-aaae-4aa80129655d
+AD_TENANT=srds.onmicrosoft.com
 ```
 
 
