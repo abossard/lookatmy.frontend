@@ -43,15 +43,13 @@ class App extends React.Component<{ appState: AppState, authState: AuthState, ap
                                     Make Call
                                 </button>
                                 <br/>
-                                <p>
-                                    <pre>
+                                <pre>
                                         {
                                             this.props.apiTest.result ?
                                                 JSON.stringify(JSON.parse(this.props.apiTest.result), undefined, 2)
                                                 : "... 'Make Call' to see something here ..."
                                         }
-                                    </pre>
-                                </p>
+                                </pre>
                                 <button onClick={this.props.authState.logout}>Logout</button>
                             </div>
                             : <button onClick={this.props.authState.login}>Login</button>

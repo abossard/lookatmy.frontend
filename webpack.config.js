@@ -1,9 +1,9 @@
-require('dotenv').config();
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ReactRootPlugin = require('html-webpack-react-root-plugin');
-const defaultExtensions = ['.ts', '.tsx', '.js'];
+require("dotenv").config();
+const path = require("path");
+const defaultExtensions = [".ts", ".tsx", ".js"];
 const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ReactRootPlugin = require("html-webpack-react-root-plugin");
 
 const requiredEnvVars = [
     "AD_CALLBACK_URL",
@@ -12,60 +12,64 @@ const requiredEnvVars = [
     "AD_RESOURCE",
     "API_SOLUTIONS_URL",
     "API_SUBSCRIPTION_KEY",
+    "HTML_TITLE",
 ];
 
 const envVars = requiredEnvVars.reduce(function(result, name) {
-    return Object.assign(result, {[name]: process.env[name] || false})
+    return Object.assign(result, {[name]: process.env[name] || false});
 }, {});
 
-const missingVars = Object.keys(envVars).filter(function(name){return envVars[name]===false});
-if(missingVars.length > 0) {
-    console.log("Missing environment variables: " + missingVars);
+const missingVars = Object.keys(envVars).filter(function(name) {
+    return envVars[name] === false;
+});
+if (missingVars.length > 0) {
+    process.stderr.write("Missing environment variables: " + missingVars);
     process.exit(1);
 }
 
-const defines = Object.keys(envVars).reduce(function(result, name){
-    return Object.assign(result, {["__"+name+"__"]: JSON.stringify(envVars[name])});
+const defines = Object.keys(envVars).reduce(function(result, name) {
+    return Object.assign(result, {["process.env." + name]: JSON.stringify(envVars[name])});
 }, {});
 
 const appConfig = {
-    target: 'web',
-    entry: './src/app/index.tsx',
     devtool: "source-map",
-    output: {
-        path: path.resolve(__dirname, 'build', 'htdocs'),
-        filename: 'index.bundle.js'
-    },
+    entry: "./src/app/index.tsx",
     module: {
         rules: [
             {
+                enforce: "pre",
+                loader: "tslint-loader",
+                options: {},
                 test: /\.tsx?$/,
-                enforce: 'pre',
-                loader: 'tslint-loader',
-                options: {}
             },
             {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
+                loader: "ts-loader",
                 options: {
-                    transpileOnly: true
-                }
-            }
-        ]
+                    transpileOnly: true,
+                },
+                test: /\.tsx?$/,
+            },
+        ],
     },
-    resolve: {
-        extensions: defaultExtensions
+    output: {
+        filename: "index.bundle.js",
+        path: path.resolve(__dirname, "build", "htdocs"),
     },
     plugins: [
-        new webpack.DefinePlugin(defines),
+        new webpack.DefinePlugin(Object.assign({
+            "process.env.PLATFORM": JSON.stringify("browser"),
+        }, defines)),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'templates', 'default_index.ejs'),
+            favicon: "./static/favicon.ico",
+            hash: true,
             title: process.env.HTML_TITLE,
-            favicon: './static/favicon.ico',
-            hash: true
         }),
-        new ReactRootPlugin()
-    ]
+        new ReactRootPlugin(),
+    ],
+    resolve: {
+        extensions: defaultExtensions,
+    },
+    target: "web",
 };
 
 module.exports = appConfig;

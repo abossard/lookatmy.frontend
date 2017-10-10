@@ -18,6 +18,7 @@ COPY tsconfig.json .
 COPY webpack.config.js .
 
 RUN yarn build
+RUN yarn lint
 
 RUN yarn test
 

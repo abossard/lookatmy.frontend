@@ -3,15 +3,14 @@ import {User} from "adal-ts";
 import {observable} from "mobx";
 
 const config = new ADAL.AdalConfig(
-    __AD_CLIENT_ID__,
-    __AD_TENANT__,
-    __AD_CALLBACK_URL__,
-    __AD_CALLBACK_URL__,
+    process.env.AD_CLIENT_ID as string,
+    process.env.AD_TENANT as string,
+    process.env.AD_CALLBACK_URL as string,
+    process.env.AD_CALLBACK_URL as string,
     "token",
-    `resource=${__AD_RESOURCE__}`,
+    `resource=${process.env.AD_RESOURCE as string}`,
 );
-
-const context = ADAL.Authentication.getContext(config);
+const context = (process.env.PLATFORM === "browser") ? ADAL.Authentication.getContext(config) : undefined;
 
 class AuthState {
     @observable public loggedIn = false;
@@ -19,18 +18,18 @@ class AuthState {
     @observable public user?: User;
 
     public login() {
-        context.login();
+        context!.login();
     }
 
     public process() {
         ADAL.Authentication.getAadRedirectProcessor().process();
-        this.token = context.getToken();
-        this.user = context.getUser();
+        this.token = context!.getToken();
+        this.user = context!.getUser();
         this.loggedIn = this.user !== null && this.token !== null;
     }
 
     public logout() {
-        context.logout();
+        context!.logout();
     }
 }
 

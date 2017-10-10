@@ -1,6 +1,8 @@
 import * as dotenv from "dotenv";
 import * as Koa from "koa";
+import * as mount from "koa-mount";
 import * as serve from "koa-static";
+import {handleRender} from "./handleRender";
 
 dotenv.config();
 
@@ -18,7 +20,9 @@ app.proxy = true;
 
 // AUTH routes
 
-app.use(serve("./build/htdocs"));
+app.use(mount("/static", serve("./build/htdocs")));
+
+app.use(handleRender);
 
 app.listen(Number(PORT), HOST, () => {
     process.stdout.write(`Running on http://${HOST}:${PORT} \n`);
