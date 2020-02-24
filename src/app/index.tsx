@@ -17,5 +17,3 @@ ReactDOM.hydrate(
 );
 
 setStylesTarget(document.getElementById("styles-target") as HTMLElement);
-
-store.authState.process();

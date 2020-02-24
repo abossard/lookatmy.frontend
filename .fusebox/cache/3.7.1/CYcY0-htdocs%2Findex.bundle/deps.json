@@ -1,0 +1,207 @@
+{
+  "tree": {
+    "fusebox-hot-reload@0.0.0": {
+      "deps": {
+        "fusebox-websocket@0.0.0": {
+          "deps": {
+            "events@0.0.0": {
+              "deps": {},
+              "name": "events",
+              "version": "0.0.0"
+            }
+          },
+          "name": "fusebox-websocket",
+          "version": "0.0.0"
+        }
+      },
+      "name": "fusebox-hot-reload",
+      "version": "0.0.0"
+    },
+    "react@16.12.0": {
+      "deps": {
+        "object-assign@4.1.1": {
+          "deps": {},
+          "name": "object-assign",
+          "version": "4.1.1"
+        },
+        "prop-types@15.7.2": {
+          "deps": {
+            "process@0.0.0": {
+              "deps": {},
+              "name": "process",
+              "version": "0.0.0"
+            }
+          },
+          "name": "prop-types",
+          "version": "15.7.2"
+        }
+      },
+      "name": "react",
+      "version": "16.12.0"
+    },
+    "react-dom@16.12.0": {
+      "deps": {
+        "scheduler@0.18.0": {
+          "deps": {},
+          "name": "scheduler",
+          "version": "0.18.0"
+        }
+      },
+      "name": "react-dom",
+      "version": "16.12.0"
+    },
+    "typestyle@1.7.2": {
+      "deps": {
+        "free-style@2.5.1": {
+          "deps": {},
+          "name": "free-style",
+          "version": "2.5.1"
+        }
+      },
+      "name": "typestyle",
+      "version": "1.7.2"
+    },
+    "tslib@1.11.0": {
+      "deps": {},
+      "name": "tslib",
+      "version": "1.11.0"
+    },
+    "mobx-react@4.4.3": {
+      "deps": {
+        "mobx@3.6.2": {
+          "deps": {},
+          "name": "mobx",
+          "version": "3.6.2"
+        }
+      },
+      "name": "mobx-react",
+      "version": "4.4.3"
+    },
+    "adal-ts@0.6.0": {
+      "deps": {},
+      "name": "adal-ts",
+      "version": "0.6.0"
+    }
+  },
+  "flat": {
+    "fusebox-hot-reload@0.0.0": {
+      "name": "fusebox-hot-reload",
+      "version": "0.0.0",
+      "files": [
+        "index.js"
+      ]
+    },
+    "fusebox-websocket@0.0.0": {
+      "name": "fusebox-websocket",
+      "version": "0.0.0",
+      "files": [
+        "index.js"
+      ]
+    },
+    "events@0.0.0": {
+      "name": "events",
+      "version": "0.0.0",
+      "files": [
+        "index.js"
+      ]
+    },
+    "react@16.12.0": {
+      "name": "react",
+      "version": "16.12.0",
+      "files": [
+        "index.js",
+        "cjs/react.production.min.js",
+        "cjs/react.development.js"
+      ]
+    },
+    "object-assign@4.1.1": {
+      "name": "object-assign",
+      "version": "4.1.1",
+      "files": [
+        "index.js"
+      ]
+    },
+    "prop-types@15.7.2": {
+      "name": "prop-types",
+      "version": "15.7.2",
+      "files": [
+        "checkPropTypes.js",
+        "lib/ReactPropTypesSecret.js"
+      ]
+    },
+    "process@0.0.0": {
+      "name": "process",
+      "version": "0.0.0",
+      "files": [
+        "index.js"
+      ]
+    },
+    "react-dom@16.12.0": {
+      "name": "react-dom",
+      "version": "16.12.0",
+      "files": [
+        "index.js",
+        "cjs/react-dom.production.min.js",
+        "cjs/react-dom.development.js"
+      ]
+    },
+    "scheduler@0.18.0": {
+      "name": "scheduler",
+      "version": "0.18.0",
+      "files": [
+        "index.js",
+        "cjs/scheduler.production.min.js",
+        "cjs/scheduler.development.js",
+        "tracing.js",
+        "cjs/scheduler-tracing.production.min.js",
+        "cjs/scheduler-tracing.development.js"
+      ]
+    },
+    "typestyle@1.7.2": {
+      "name": "typestyle",
+      "version": "1.7.2",
+      "files": [
+        "lib/index.js",
+        "lib/internal/typestyle.js",
+        "lib/internal/formatting.js",
+        "lib/internal/utilities.js",
+        "lib/types.js"
+      ]
+    },
+    "free-style@2.5.1": {
+      "name": "free-style",
+      "version": "2.5.1",
+      "files": [
+        "dist/free-style.js"
+      ]
+    },
+    "tslib@1.11.0": {
+      "name": "tslib",
+      "version": "1.11.0",
+      "files": [
+        "tslib.js"
+      ]
+    },
+    "mobx-react@4.4.3": {
+      "name": "mobx-react",
+      "version": "4.4.3",
+      "files": [
+        "index.js"
+      ]
+    },
+    "mobx@3.6.2": {
+      "name": "mobx",
+      "version": "3.6.2",
+      "files": [
+        "lib/mobx.js"
+      ]
+    },
+    "adal-ts@0.6.0": {
+      "name": "adal-ts",
+      "version": "0.6.0",
+      "files": [
+        "dist/index.js"
+      ]
+    }
+  }
+}

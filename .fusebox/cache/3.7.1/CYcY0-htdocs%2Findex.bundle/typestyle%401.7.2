@@ -1,0 +1,454 @@
+FuseBox.pkg("typestyle", {}, function(___scope___){
+___scope___.file("lib/index.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var typestyle_1 = require("./internal/typestyle");
+exports.TypeStyle = typestyle_1.TypeStyle;
+/**
+ * All the CSS types in the 'types' namespace
+ */
+var types = require("./types");
+exports.types = types;
+/**
+ * Export certain utilities
+ */
+var utilities_1 = require("./internal/utilities");
+exports.extend = utilities_1.extend;
+exports.classes = utilities_1.classes;
+exports.media = utilities_1.media;
+/** Zero configuration, default instance of TypeStyle */
+var ts = new typestyle_1.TypeStyle({ autoGenerateTag: true });
+/** Sets the target tag where we write the css on style updates */
+exports.setStylesTarget = ts.setStylesTarget;
+/**
+ * Insert `raw` CSS as a string. This is useful for e.g.
+ * - third party CSS that you are customizing with template strings
+ * - generating raw CSS in JavaScript
+ * - reset libraries like normalize.css that you can use without loaders
+ */
+exports.cssRaw = ts.cssRaw;
+/**
+ * Takes CSSProperties and registers it to a global selector (body, html, etc.)
+ */
+exports.cssRule = ts.cssRule;
+/**
+ * Renders styles to the singleton tag imediately
+ * NOTE: You should only call it on initial render to prevent any non CSS flash.
+ * After that it is kept sync using `requestAnimationFrame` and we haven't noticed any bad flashes.
+ **/
+exports.forceRenderStyles = ts.forceRenderStyles;
+/**
+ * Utility function to register an @font-face
+ */
+exports.fontFace = ts.fontFace;
+/**
+ * Allows use to use the stylesheet in a node.js environment
+ */
+exports.getStyles = ts.getStyles;
+/**
+ * Takes keyframes and returns a generated animationName
+ */
+exports.keyframes = ts.keyframes;
+/**
+ * Helps with testing. Reinitializes FreeStyle + raw
+ */
+exports.reinit = ts.reinit;
+/**
+ * Takes CSSProperties and return a generated className you can use on your component
+ */
+exports.style = ts.style;
+/**
+ * Takes an object where property names are ideal class names and property values are CSSProperties, and
+ * returns an object where property names are the same ideal class names and the property values are
+ * the actual generated class names using the ideal class name as the $debugName
+ */
+exports.stylesheet = ts.stylesheet;
+/**
+ * Creates a new instance of TypeStyle separate from the default instance.
+ *
+ * - Use this for creating a different typestyle instance for a shadow dom component.
+ * - Use this if you don't want an auto tag generated and you just want to collect the CSS.
+ *
+ * NOTE: styles aren't shared between different instances.
+ */
+function createTypeStyle(target) {
+    var instance = new typestyle_1.TypeStyle({ autoGenerateTag: false });
+    if (target) {
+        instance.setStylesTarget(target);
+    }
+    return instance;
+}
+exports.createTypeStyle = createTypeStyle;
+
+});
+___scope___.file("lib/internal/typestyle.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var formatting_1 = require("./formatting");
+var utilities_1 = require("./utilities");
+var FreeStyle = require("free-style");
+/**
+ * Creates an instance of free style with our options
+ */
+var createFreeStyle = function () { return FreeStyle.create(
+/** Use the default hash function */
+undefined, 
+/** Preserve $debugName values */
+true); };
+/**
+ * Maintains a single stylesheet and keeps it in sync with requested styles
+ */
+var TypeStyle = (function () {
+    function TypeStyle(_a) {
+        var autoGenerateTag = _a.autoGenerateTag;
+        var _this = this;
+        /**
+         * Insert `raw` CSS as a string. This is useful for e.g.
+         * - third party CSS that you are customizing with template strings
+         * - generating raw CSS in JavaScript
+         * - reset libraries like normalize.css that you can use without loaders
+         */
+        this.cssRaw = function (mustBeValidCSS) {
+            if (!mustBeValidCSS) {
+                return;
+            }
+            _this._raw += mustBeValidCSS || '';
+            _this._pendingRawChange = true;
+            _this._styleUpdated();
+        };
+        /**
+         * Takes CSSProperties and registers it to a global selector (body, html, etc.)
+         */
+        this.cssRule = function (selector) {
+            var objects = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                objects[_i - 1] = arguments[_i];
+            }
+            var object = formatting_1.ensureStringObj(utilities_1.extend.apply(void 0, objects)).result;
+            _this._freeStyle.registerRule(selector, object);
+            _this._styleUpdated();
+            return;
+        };
+        /**
+         * Renders styles to the singleton tag imediately
+         * NOTE: You should only call it on initial render to prevent any non CSS flash.
+         * After that it is kept sync using `requestAnimationFrame` and we haven't noticed any bad flashes.
+         **/
+        this.forceRenderStyles = function () {
+            var target = _this._getTag();
+            if (!target) {
+                return;
+            }
+            target.textContent = _this.getStyles();
+        };
+        /**
+         * Utility function to register an @font-face
+         */
+        this.fontFace = function () {
+            var fontFace = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                fontFace[_i] = arguments[_i];
+            }
+            var freeStyle = _this._freeStyle;
+            for (var _a = 0, _b = fontFace; _a < _b.length; _a++) {
+                var face = _b[_a];
+                freeStyle.registerRule('@font-face', face);
+            }
+            _this._styleUpdated();
+            return;
+        };
+        /**
+         * Allows use to use the stylesheet in a node.js environment
+         */
+        this.getStyles = function () {
+            return (_this._raw || '') + _this._freeStyle.getStyles();
+        };
+        /**
+         * Takes keyframes and returns a generated animationName
+         */
+        this.keyframes = function (frames) {
+            var _a = formatting_1.explodeKeyframes(frames), keyframes = _a.keyframes, $debugName = _a.$debugName;
+            // TODO: replace $debugName with display name
+            var animationName = _this._freeStyle.registerKeyframes(keyframes, $debugName);
+            _this._styleUpdated();
+            return animationName;
+        };
+        /**
+         * Helps with testing. Reinitializes FreeStyle + raw
+         */
+        this.reinit = function () {
+            /** reinit freestyle */
+            var freeStyle = createFreeStyle();
+            _this._freeStyle = freeStyle;
+            _this._lastFreeStyleChangeId = freeStyle.changeId;
+            /** reinit raw */
+            _this._raw = '';
+            _this._pendingRawChange = false;
+            /** Clear any styles that were flushed */
+            var target = _this._getTag();
+            if (target) {
+                target.textContent = '';
+            }
+        };
+        /** Sets the target tag where we write the css on style updates */
+        this.setStylesTarget = function (tag) {
+            /** Clear any data in any previous tag */
+            if (_this._tag) {
+                _this._tag.textContent = '';
+            }
+            _this._tag = tag;
+            /** This special time buffer immediately */
+            _this.forceRenderStyles();
+        };
+        /**
+         * Takes CSSProperties and return a generated className you can use on your component
+         */
+        this.style = function () {
+            var objects = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                objects[_i] = arguments[_i];
+            }
+            var freeStyle = _this._freeStyle;
+            var _a = formatting_1.ensureStringObj(utilities_1.extend.apply(void 0, objects)), result = _a.result, debugName = _a.debugName;
+            var className = debugName ? freeStyle.registerStyle(result, debugName) : freeStyle.registerStyle(result);
+            _this._styleUpdated();
+            return className;
+        };
+        /**
+         * Takes an object where property names are ideal class names and property values are CSSProperties, and
+         * returns an object where property names are the same ideal class names and the property values are
+         * the actual generated class names using the ideal class name as the $debugName
+         */
+        this.stylesheet = function (classes) {
+            var classNames = Object.getOwnPropertyNames(classes);
+            var result = {};
+            for (var _i = 0, classNames_1 = classNames; _i < classNames_1.length; _i++) {
+                var className = classNames_1[_i];
+                var classDef = classes[className];
+                if (classDef) {
+                    classDef.$debugName = className;
+                    result[className] = _this.style(classDef);
+                }
+            }
+            return result;
+        };
+        var freeStyle = createFreeStyle();
+        this._autoGenerateTag = autoGenerateTag;
+        this._freeStyle = freeStyle;
+        this._lastFreeStyleChangeId = freeStyle.changeId;
+        this._pending = 0;
+        this._pendingRawChange = false;
+        this._raw = '';
+        this._tag = undefined;
+    }
+    /**
+     * Only calls cb all sync operations settle
+     */
+    TypeStyle.prototype._afterAllSync = function (cb) {
+        var _this = this;
+        this._pending++;
+        var pending = this._pending;
+        utilities_1.raf(function () {
+            if (pending !== _this._pending) {
+                return;
+            }
+            cb();
+        });
+    };
+    TypeStyle.prototype._getTag = function () {
+        if (this._tag) {
+            return this._tag;
+        }
+        if (this._autoGenerateTag) {
+            var tag = typeof window === 'undefined'
+                ? { textContent: '' }
+                : document.createElement('style');
+            if (typeof document !== 'undefined') {
+                document.head.appendChild(tag);
+            }
+            this._tag = tag;
+            return tag;
+        }
+        return undefined;
+    };
+    /** Checks if the style tag needs updating and if so queues up the change */
+    TypeStyle.prototype._styleUpdated = function () {
+        var _this = this;
+        var changeId = this._freeStyle.changeId;
+        var lastChangeId = this._lastFreeStyleChangeId;
+        if (!this._pendingRawChange && changeId === lastChangeId) {
+            return;
+        }
+        this._lastFreeStyleChangeId = changeId;
+        this._pendingRawChange = false;
+        this._afterAllSync(function () { return _this.forceRenderStyles(); });
+    };
+    return TypeStyle;
+}());
+exports.TypeStyle = TypeStyle;
+
+});
+___scope___.file("lib/internal/formatting.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var FreeStyle = require("free-style");
+/**
+ * We need to do the following to *our* objects before passing to freestyle:
+ * - For any `$nest` directive move up to FreeStyle style nesting
+ * - For any `$unique` directive map to FreeStyle Unique
+ * - For any `$debugName` directive return the debug name
+ */
+function ensureStringObj(object) {
+    /** The final result we will return */
+    var result = {};
+    var debugName = '';
+    for (var key in object) {
+        /** Grab the value upfront */
+        var val = object[key];
+        /** TypeStyle configuration options */
+        if (key === '$unique') {
+            result[FreeStyle.IS_UNIQUE] = val;
+        }
+        else if (key === '$nest') {
+            var nested = val;
+            for (var selector in nested) {
+                var subproperties = nested[selector];
+                result[selector] = ensureStringObj(subproperties).result;
+            }
+        }
+        else if (key === '$debugName') {
+            debugName = val;
+        }
+        else {
+            result[key] = val;
+        }
+    }
+    return { result: result, debugName: debugName };
+}
+exports.ensureStringObj = ensureStringObj;
+// todo: better name here
+function explodeKeyframes(frames) {
+    var result = { $debugName: undefined, keyframes: {} };
+    for (var offset in frames) {
+        var val = frames[offset];
+        if (offset === '$debugName') {
+            result.$debugName = val;
+        }
+        else {
+            result.keyframes[offset] = val;
+        }
+    }
+    return result;
+}
+exports.explodeKeyframes = explodeKeyframes;
+
+});
+___scope___.file("lib/internal/utilities.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/** Raf for node + browser */
+exports.raf = typeof requestAnimationFrame === 'undefined'
+    ? function (cb) { return setTimeout(cb); }
+    : typeof window === 'undefined'
+        ? requestAnimationFrame
+        : requestAnimationFrame.bind(window);
+/**
+ * Utility to join classes conditionally
+ */
+function classes() {
+    var classes = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        classes[_i] = arguments[_i];
+    }
+    return classes.filter(function (c) { return !!c; }).join(' ');
+}
+exports.classes = classes;
+/**
+ * Merges various styles into a single style object.
+ * Note: if two objects have the same property the last one wins
+ */
+function extend() {
+    var objects = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        objects[_i] = arguments[_i];
+    }
+    /** The final result we will return */
+    var result = {};
+    for (var _a = 0, objects_1 = objects; _a < objects_1.length; _a++) {
+        var object = objects_1[_a];
+        if (object == null || object === false) {
+            continue;
+        }
+        for (var key in object) {
+            /** Falsy values except a explicit 0 is ignored */
+            var val = object[key];
+            if (!val && val !== 0) {
+                continue;
+            }
+            /** if nested media or pseudo selector */
+            if (key === '$nest' && val) {
+                result[key] = result['$nest'] ? extend(result['$nest'], val) : val;
+            }
+            else if ((key.indexOf('&') !== -1 || key.indexOf('@media') === 0)) {
+                result[key] = result[key] ? extend(result[key], val) : val;
+            }
+            else {
+                result[key] = val;
+            }
+        }
+    }
+    return result;
+}
+exports.extend = extend;
+/**
+ * Utility to help customize styles with media queries. e.g.
+ * ```
+ * style(
+ *  media({maxWidth:500}, {color:'red'})
+ * )
+ * ```
+ */
+exports.media = function (mediaQuery) {
+    var objects = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        objects[_i - 1] = arguments[_i];
+    }
+    var mediaQuerySections = [];
+    if (mediaQuery.type)
+        mediaQuerySections.push(mediaQuery.type);
+    if (mediaQuery.orientation)
+        mediaQuerySections.push("(orientation: " + mediaQuery.orientation + ")");
+    if (mediaQuery.minWidth)
+        mediaQuerySections.push("(min-width: " + mediaLength(mediaQuery.minWidth) + ")");
+    if (mediaQuery.maxWidth)
+        mediaQuerySections.push("(max-width: " + mediaLength(mediaQuery.maxWidth) + ")");
+    if (mediaQuery.minHeight)
+        mediaQuerySections.push("(min-height: " + mediaLength(mediaQuery.minHeight) + ")");
+    if (mediaQuery.maxHeight)
+        mediaQuerySections.push("(max-height: " + mediaLength(mediaQuery.maxHeight) + ")");
+    var stringMediaQuery = "@media " + mediaQuerySections.join(' and ');
+    var object = {
+        $nest: (_a = {},
+            _a[stringMediaQuery] = extend.apply(void 0, objects),
+            _a)
+    };
+    return object;
+    var _a;
+};
+var mediaLength = function (value) {
+    return typeof value === 'string' ? value : value + "px";
+};
+
+});
+___scope___.file("lib/types.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+
+});
+return ___scope___.entry = "lib/index.js";
+});
