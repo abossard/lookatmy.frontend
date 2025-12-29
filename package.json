@@ -26,7 +26,7 @@
     "@types/koa-mount": "^2.0.18",
     "@types/koa-static": "^3.0.1",
     "@types/react": "^16.0.7",
-    "@types/react-dom": "^16.0.0",
+    "@types/react-dom": "^16.9.25",
     "@types/webpack-env": "^1.13.1",
     "adal-ts": "^0.6.0",
     "dotenv": "^4.0.0",
